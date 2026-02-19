@@ -27,11 +27,10 @@ app.use('/api/auth', authRoutes);
 app.use('/api/reports', reportRoutes);
 
 if (process.env.NODE_ENV === 'production') {
-  const frontendDistPath = path.join(__dirname, '../../frontend/dist');
-  app.use(express.static(frontendDistPath));
-  app.get('*', (req, res) => {
-    res.sendFile(path.join(frontendDistPath, 'index.html'));
-  });
+    app.use(express.static(path.join(__dirname, '../frontend/dist')));
+    app.get('*', (req, res) => {
+        res.sendFile(path.join(__dirname, '../frontend', 'dist', 'index.html'))
+    })
 }
 
 app.use(errorHandler);
