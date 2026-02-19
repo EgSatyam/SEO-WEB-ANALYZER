@@ -71,11 +71,37 @@ export const getReports = asyncHandler(async (req, res) => {
   const { type, minScore, dateFrom, dateTo, sort } = req.query;
   const filter = { userId: req.user.id };
 
-  if (type && ['URL', 'TEXT'].includes(type)) filter.type = type;
-  if (minScore != null && minScore !== '') filter.score = { $gte: Number(minScore) };
-  if (dateFrom) filter.createdAt = { ...filter.createdAt, $gte: new Date(dateFrom) };
-  if (dateTo) filter.createdAt = { ...filter.createdAt, $lte: new Date(dateTo) };
+  // Validate and apply type filter
+  if (type && ['URL', 'TEXT'].includes(type)) {
+    filter.type = type;
+  }
 
+  // Validate and apply minScore filter
+  if (minScore != null && minScore !== '') {
+    const score = Number(minScore);
+    if (!isNaN(score) && score >= 0 && score <= 100) {
+      filter.score = { $gte: score };
+    }
+  }
+
+  // Validate and apply date filters
+  if (dateFrom) {
+    const fromDate = new Date(dateFrom);
+    if (!isNaN(fromDate.getTime())) {
+      filter.createdAt = { ...filter.createdAt, $gte: fromDate };
+    }
+  }
+
+  if (dateTo) {
+    const toDate = new Date(dateTo);
+    if (!isNaN(toDate.getTime())) {
+      // Set to end of day
+      toDate.setHours(23, 59, 59, 999);
+      filter.createdAt = { ...filter.createdAt, $lte: toDate };
+    }
+  }
+
+  // Apply sorting
   let sortOption = { createdAt: -1 };
   if (sort === 'oldest') sortOption = { createdAt: 1 };
   else if (sort === 'scoreAsc') sortOption = { score: 1, createdAt: -1 };
@@ -88,8 +114,9 @@ export const getReports = asyncHandler(async (req, res) => {
 export const getReportById = asyncHandler(async (req, res) => {
   const report = await Report.findOne({ _id: req.params.id, userId: req.user.id });
   if (!report) {
-    res.status(404);
-    throw new Error('Report not found');
+    const err = new Error('Report not found');
+    err.statusCode = 404;
+    throw err;
   }
   res.json(report);
 });
@@ -97,8 +124,9 @@ export const getReportById = asyncHandler(async (req, res) => {
 export const deleteReport = asyncHandler(async (req, res) => {
   const report = await Report.findOne({ _id: req.params.id, userId: req.user.id });
   if (!report) {
-    res.status(404);
-    throw new Error('Report not found');
+    const err = new Error('Report not found');
+    err.statusCode = 404;
+    throw err;
   }
   await report.deleteOne();
   res.json({ message: 'Report deleted' });
@@ -107,8 +135,9 @@ export const deleteReport = asyncHandler(async (req, res) => {
 export const downloadPdf = asyncHandler(async (req, res) => {
   const report = await Report.findOne({ _id: req.params.id, userId: req.user.id });
   if (!report) {
-    res.status(404);
-    throw new Error('Report not found');
+    const err = new Error('Report not found');
+    err.statusCode = 404;
+    throw err;
   }
   const pdfBuffer = await generateReportPdf(report);
   res.setHeader('Content-Type', 'application/pdf');

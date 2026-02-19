@@ -2,19 +2,30 @@ import { z } from 'zod';
 
 const analyzeSchema = z
   .object({
-    mode: z.enum(['url', 'text']),
-    url: z.string().url().optional(),
-    content: z.string().max(500 * 1024).optional(),
+    mode: z.enum(['url', 'text']).default('url'),
+    url: z.string().min(1).optional().nullable(),
+    content: z.string().min(1).optional().nullable(),
   })
-  .refine((data) => (data.mode === 'url' ? !!data.url : !!data.content), {
-    message: 'url required for URL mode, content for text mode',
-  });
+  .refine(
+    (data) => {
+      if (data.mode === 'url') {
+        return data.url && data.url.trim().length > 0;
+      }
+      if (data.mode === 'text') {
+        return data.content && data.content.trim().length > 0;
+      }
+      return false;
+    },
+    { message: 'URL or content is required' }
+  );
 
 export function validateAnalyzeBody(body) {
   const result = analyzeSchema.safeParse(body);
   if (!result.success) {
     const msg = result.error.errors.map((e) => e.message).join('; ');
-    throw new Error(msg);
+    const err = new Error(msg);
+    err.statusCode = 400;
+    throw err;
   }
   return result.data;
 }
