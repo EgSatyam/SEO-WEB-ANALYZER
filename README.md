@@ -1,4 +1,4 @@
-# SEO Web Analyzer
+﻿# SEO Web Analyzer
 
 A full-stack web app that analyzes URLs or pasted content for SEO: title, meta, headings, readability, sentiment, and keywords. Includes auth (login/signup, remember me), dashboard, reports, and PDF export.
 
@@ -6,6 +6,27 @@ A full-stack web app that analyzes URLs or pasted content for SEO: title, meta, 
 
 - **Frontend:** React, Vite, Tailwind CSS, React Router, Axios
 - **Backend:** Node.js, Express, MongoDB (Mongoose), JWT (access + refresh), Cheerio for HTML analysis
+
+## Post to GitHub
+
+1. **Create a new repository on GitHub**
+   - Go to [github.com/new](https://github.com/new).
+   - Name it `seo-web-analyzer` (or any name).
+   - Do **not** add a README, .gitignore, or license (this repo already has them).
+   - Click **Create repository**.
+
+2. **Push this project**
+   ```bash
+   cd path/to/seo-web-analyzer
+   git remote add origin https://github.com/YOUR_USERNAME/seo-web-analyzer.git
+   git branch -M main
+   git push -u origin main
+   ```
+   Replace `YOUR_USERNAME` with your GitHub username. If you use SSH:
+   ```bash
+   git remote add origin git@github.com:YOUR_USERNAME/seo-web-analyzer.git
+   git push -u origin main
+   ```
 
 ## Prerequisites
 
@@ -42,8 +63,8 @@ npm install
 
 ### 4. Run locally
 
-- **Terminal 1 – backend:** `cd backend && npm run dev` (runs on http://localhost:5000)
-- **Terminal 2 – frontend:** `cd frontend && npm run dev` (runs on http://localhost:5173)
+- **Terminal 1 ΓÇô backend:** `cd backend && npm run dev` (runs on http://localhost:5000)
+- **Terminal 2 ΓÇô frontend:** `cd frontend && npm run dev` (runs on http://localhost:5173)
 
 Open http://localhost:5173 and sign up / log in to use the app.
 
@@ -57,29 +78,29 @@ Open http://localhost:5173 and sign up / log in to use the app.
 
 ```
 seo-web-analyzer/
-├── backend/          # Express API, auth, reports, SEO analysis
-│   ├── src/
-│   │   ├── server.js
-│   │   ├── app.js
-│   │   ├── config/
-│   │   ├── controllers/
-│   │   ├── middleware/
-│   │   ├── models/
-│   │   ├── routes/
-│   │   └── utils/
-│   ├── .env.example
-│   └── package.json
-├── frontend/         # React + Vite app
-│   ├── src/
-│   │   ├── api/
-│   │   ├── components/
-│   │   ├── context/
-│   │   ├── pages/
-│   │   └── styles/
-│   ├── .env.example
-│   └── package.json
-├── .gitignore
-└── README.md
+Γö£ΓöÇΓöÇ backend/          # Express API, auth, reports, SEO analysis
+Γöé   Γö£ΓöÇΓöÇ src/
+Γöé   Γöé   Γö£ΓöÇΓöÇ server.js
+Γöé   Γöé   Γö£ΓöÇΓöÇ app.js
+Γöé   Γöé   Γö£ΓöÇΓöÇ config/
+Γöé   Γöé   Γö£ΓöÇΓöÇ controllers/
+Γöé   Γöé   Γö£ΓöÇΓöÇ middleware/
+Γöé   Γöé   Γö£ΓöÇΓöÇ models/
+Γöé   Γöé   Γö£ΓöÇΓöÇ routes/
+Γöé   Γöé   ΓööΓöÇΓöÇ utils/
+Γöé   Γö£ΓöÇΓöÇ .env.example
+Γöé   ΓööΓöÇΓöÇ package.json
+Γö£ΓöÇΓöÇ frontend/         # React + Vite app
+Γöé   Γö£ΓöÇΓöÇ src/
+Γöé   Γöé   Γö£ΓöÇΓöÇ api/
+Γöé   Γöé   Γö£ΓöÇΓöÇ components/
+Γöé   Γöé   Γö£ΓöÇΓöÇ context/
+Γöé   Γöé   Γö£ΓöÇΓöÇ pages/
+Γöé   Γöé   ΓööΓöÇΓöÇ styles/
+Γöé   Γö£ΓöÇΓöÇ .env.example
+Γöé   ΓööΓöÇΓöÇ package.json
+Γö£ΓöÇΓöÇ .gitignore
+ΓööΓöÇΓöÇ README.md
 ```
 
 ## License
